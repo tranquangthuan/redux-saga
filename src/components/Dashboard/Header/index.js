@@ -11,6 +11,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import React from "react";
 import styles from "./style.js";
+import { withRouter } from "react-router-dom";
 
 const menuId = "primary-search-account-menu";
 
@@ -34,6 +35,13 @@ class Header extends React.Component {
     });
   };
 
+  handleLogout = () => {
+    const { history } = this.props;
+    if (history) {
+      history.push("/login");
+    }
+  };
+
   renderMenu = () => {
     const { anchorEl } = this.state;
     const isMenuOpen = Boolean(anchorEl);
@@ -47,7 +55,7 @@ class Header extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem>
+        <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
       </Menu>
     );
   };
@@ -109,4 +117,4 @@ class Header extends React.Component {
   }
 }
 
-export default withStyles(styles)(Header);
+export default withStyles(styles)(withRouter(Header));

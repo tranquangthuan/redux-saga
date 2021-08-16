@@ -10,9 +10,10 @@ import "react-toastify/dist/ReactToastify.css";
 import GlobalLoading from "../../components/GlobalLoading/index.js";
 import TrainingModal from "../../components/TrainingModal/index.js";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { ADMIN_ROUTES } from "../../constants/index.js";
+import { ADMIN_ROUTES, ROUTES } from "../../constants/index.js";
 import AdminLayoutRoute from "../../common/layout/AdminLayoutRoute/index.js";
 import { CssBaseline } from "@material-ui/core";
+import DefaultLayoutRoute from "../../common/layout/DefaultLayoutRoute/index.js";
 
 const store = configStore();
 
@@ -33,6 +34,23 @@ class App extends React.Component {
 
     return xhtml;
   };
+
+  renderDefaultRoutes = () => {
+    var xhtml = null;
+    xhtml = ROUTES.map((route) => {
+      return (
+        <DefaultLayoutRoute
+          key={route.path}
+          path={route.path}
+          exact={route.exact}
+          component={route.component}
+          name={route.name}
+        />
+      );
+    });
+
+    return xhtml;
+  };
   render() {
     return (
       <Provider store={store}>
@@ -42,7 +60,10 @@ class App extends React.Component {
             <GlobalLoading />
             <ToastContainer />
             <TrainingModal />
-            <Switch>{this.renderAdminRoutes()}</Switch>
+            <Switch>
+              {this.renderAdminRoutes()}
+              {this.renderDefaultRoutes()}
+            </Switch>
           </ThemeProvider>
         </BrowserRouter>
       </Provider>
